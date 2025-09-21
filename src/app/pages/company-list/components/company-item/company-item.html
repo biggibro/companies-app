@@ -1,0 +1,10 @@
+<!-- <div>{{ company.business_name }}</div> -->
+
+<div class="company-item" (click)="goToDetail()">
+  <img [src]="company.logo" alt="Logo" />
+  <div class="company-item__info">
+    <p class="company-item__name">{{ company.suffix }} "{{ company.business_name }}"</p>
+    <p class="company-item__industry">Вид деятельности: {{ company.industry }}</p>
+    <p class="company-item__type">Тип: {{ company.type }}</p>
+  </div>
+</div>

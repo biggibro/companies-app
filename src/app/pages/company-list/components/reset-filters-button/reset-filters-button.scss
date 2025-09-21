@@ -1,0 +1,23 @@
+.reset-button {
+  //   padding: 0px 16px;
+  border: solid 1px #ddd;
+  border-radius: 8px;
+  height: 40px;
+  background: #ffffff;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+
+  &:hover {
+    background: #eb5050;
+    color: #fff;
+    border: solid 1px #eb5050;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}

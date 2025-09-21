@@ -1,0 +1,13 @@
+<div class="company-detail" *ngIf="company">
+  <img [src]="company.logo" alt="Logo" />
+  <div class="company-detail__info">
+    <p class="company-detail__name">{{ company.suffix }} "{{ company.business_name }}"</p>
+    <p class="company-detail__industry"><span>Вид деятельности:</span> {{ company.industry }}</p>
+    <p class="company-detail__phrase"><span>Слоган:</span> {{ company.catch_phrase }}</p>
+    <p class="company-detail__phone"><span>Телефон:</span> {{ company.phone_number }}</p>
+    <p class="company-detail__address"><span>Адрес:</span> {{ company.full_address }}</p>
+  </div>
+</div>
+<div *ngIf="!company">
+  <p>Компания не найдена</p>
+</div>

@@ -1,0 +1,15 @@
+<div class="select-component">
+  <label for="sort-by" class="label">Сортировка</label>
+  <select
+    id="sort-by"
+    name="sort-by"
+    class="select"
+    [value]="selectedOption.value"
+    (change)="onSelect($event)"
+    [(ngModel)]="selectedOption.value"
+  >
+    <option *ngFor="let option of options" [value]="option">
+      {{ option }}
+    </option>
+  </select>
+</div>
