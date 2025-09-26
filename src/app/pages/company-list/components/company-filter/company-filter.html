@@ -27,8 +27,9 @@
     [value]="selectedType.value"
     (change)="onSelectType($event)"
     [(ngModel)]="selectedType.value"
+    [disabled]="companyApiService.loadingTypes()"
   >
-    <option *ngFor="let type of types" [value]="type">
+    <option *ngFor="let type of companyApiService.types()" [value]="type">
       {{ type }}
     </option>
   </select>
@@ -43,8 +44,9 @@
     [value]="selectedIndustry.value"
     (change)="onSelectIndustry($event)"
     [(ngModel)]="selectedIndustry.value"
+    [disabled]="companyApiService.loadingIndustries()"
   >
-    <option *ngFor="let industry of industries" [value]="industry">
+    <option *ngFor="let industry of companyApiService.industries()" [value]="industry">
       {{ industry }}
     </option>
   </select>

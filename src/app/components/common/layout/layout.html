@@ -1,8 +1,12 @@
 <div class="layout">
   <header class="layout__header">
     <p class="layout__title">Список компаний.ru</p>
-    <button class="layout__nav-btn" routerLink="/list">Список компаний</button>
-    <button class="layout__nav-btn" routerLink="/map">Показать на карте</button>
+    <button class="layout__nav-btn" routerLink="/list" routerLinkActive="active">
+      Список компаний
+    </button>
+    <button class="layout__nav-btn" routerLink="/map" routerLinkActive="active">
+      Показать на карте
+    </button>
   </header>
   <router-outlet></router-outlet>
 </div>

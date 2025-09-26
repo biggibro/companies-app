@@ -1,12 +1,23 @@
 <section class="company-list">
-  <app-company-filter />
-  <app-company-sort />
-  <app-reset-filters-button />
+  <div class="filters">
+    <app-company-filter />
+    <app-company-sort />
+    <app-reset-filters-button />
 
-  <ul class="company-list__items">
-    <p>Колличество: {{ companies.length }}</p>
-    <li class="company-list__item" *ngFor="let company of companies">
-      <app-company-item [company]="company"></app-company-item>
-    </li>
-  </ul>
+    <div class="count">Количество: {{ companyApiService.compamies().length }}</div>
+  </div>
+
+  <div class="list">
+    @if (companyApiService.loading()) {
+    <b>Загрузка...</b>
+    } @else if(!!companyApiService.compamies().length) {
+    <ul class="company-list__items">
+      <li class="company-list__item" *ngFor="let company of companyApiService.compamies()">
+        <app-company-item [company]="company"></app-company-item>
+      </li>
+    </ul>
+    } @else {
+    <b>Компании не найдены</b>
+    }
+  </div>
 </section>

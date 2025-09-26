@@ -1,8 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CompanyDTO } from '../../data/interfaces/interface-company';
 import { Observable } from 'rxjs';
-import { CompanyQueryParamsStoreService } from './company-query-params.store.service';
+import { CompanyRequestType } from './company-api.types';
 
 @Injectable({
   providedIn: 'root',
@@ -10,53 +10,49 @@ import { CompanyQueryParamsStoreService } from './company-query-params.store.ser
 export class CompanyApiService {
   private apiUrl = 'https://faker-api.milki.space';
 
-  private http: HttpClient = inject(HttpClient);
+  private http = inject(HttpClient);
 
-  private companyQueryParamsStoreService: CompanyQueryParamsStoreService = inject(
-    CompanyQueryParamsStoreService
-  );
+  loading = signal(false);
 
-  getCompanies(): Observable<{ data: CompanyDTO[] }> {
-    const queryParams = this.companyQueryParamsStoreService.getQueryParams();
+  compamies = signal<CompanyDTO[]>([]);
 
-    let sortParam = '?';
+  loadingIndustries = signal(false);
+  industries = signal<string[]>([]);
 
-    if (queryParams.page) {
-      sortParam = sortParam + `&page=${queryParams.page}`;
-    }
+  loadingTypes = signal(false);
+  types = signal<string[]>([]);
 
-    if (queryParams.pageSize) {
-      sortParam = sortParam + `&per_page=${queryParams.pageSize}`;
-    }
+  getCompanies(params: CompanyRequestType) {
+    this.loading.set(true);
 
-    if (queryParams?.sort) {
-      sortParam = sortParam + `&sort_by=${queryParams.sort}`;
-    }
-
-    if (queryParams?.filter) {
-      sortParam = sortParam + `&q=${queryParams.filter}`;
-    }
-
-    if (queryParams?.company_type) {
-      sortParam = sortParam + `&company_type=${queryParams.company_type}`;
-    }
-
-    if (queryParams?.industry) {
-      sortParam = sortParam + `&industry=${queryParams.industry}`;
-    }
-
-    return this.http.get<{ data: CompanyDTO[] }>(`${this.apiUrl}/companies${sortParam}`);
+    this.http
+      .get<{ data: CompanyDTO[] }>(`${this.apiUrl}/companies`, {
+        params: { ...params },
+      })
+      .subscribe({
+        next: (response) => this.compamies.set(response.data),
+        error: () => console.log('error'),
+        complete: () => this.loading.set(false),
+      });
   }
 
   getCompaniesId(id: number): Observable<CompanyDTO> {
     return this.http.get<CompanyDTO>(`${this.apiUrl}/companies/${id}`);
   }
 
-  getIndustries(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/industries`);
+  getIndustries() {
+    this.loadingIndustries.set(true);
+    this.http.get<string[]>(`${this.apiUrl}/industries`).subscribe({
+      next: (response) => this.industries.set(['empty', ...response]),
+      complete: () => this.loadingIndustries.set(false),
+    });
   }
 
-  getTypes(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/types`);
+  getTypes() {
+    this.loadingTypes.set(true);
+    this.http.get<string[]>(`${this.apiUrl}/types`).subscribe({
+      next: (response) => this.types.set(['empty', ...response]),
+      complete: () => this.loadingTypes.set(false),
+    });
   }
 }

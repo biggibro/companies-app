@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { CompanyDTO } from '../../data/interfaces/interface-company';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { CompanyItem } from './components/company-item/company-item';
 import { CompanySort } from './components/company-sort/company-sort';
 import { CompanyApiService } from '../../services/company/company-api.service';
-import { CompanyStoreService } from '../../services/company/company-store.service';
-import { Subscription } from 'rxjs';
 import { CompanyFilter } from './components/company-filter/company-filter';
 import { ResetFiltersButton } from './components/reset-filters-button/reset-filters-button';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-company-list',
@@ -15,32 +13,21 @@ import { ResetFiltersButton } from './components/reset-filters-button/reset-filt
   templateUrl: './company-list.html',
   styleUrl: './company-list.scss',
 })
-export class CompanyList implements OnInit, OnDestroy {
-  private companyApiService = inject(CompanyApiService);
-  private companyStoreService = inject(CompanyStoreService);
-  public companies: CompanyDTO[] = [];
+export class CompanyList implements OnInit {
+  public companyApiService = inject(CompanyApiService);
+  private activatedRoute = inject(ActivatedRoute);
 
-  private subscription = new Subscription();
+  private fetchCompanies = effect(() => {
+    this.activatedRoute.queryParams.subscribe((params) =>
+      this.companyApiService.getCompanies(params)
+    );
+  });
 
   ngOnInit(): void {
-    this.companyApiService.getCompanies().subscribe((response) => {
-      this.companyStoreService.setCompanies(response.data);
-    });
+    // this.companyApiService.getCompanies();
 
-    this.companyApiService.getTypes().subscribe((response) => {
-      this.companyStoreService.setTypes(response);
-    });
+    this.companyApiService.getTypes();
 
-    this.companyApiService.getIndustries().subscribe((response) => {
-      this.companyStoreService.setIndustries(response);
-    });
-
-    this.subscription = this.companyStoreService.companies$.subscribe((companies) => {
-      this.companies = companies;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.companyApiService.getIndustries();
   }
 }

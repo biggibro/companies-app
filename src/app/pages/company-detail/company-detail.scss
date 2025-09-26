@@ -1,3 +1,12 @@
+:host {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+
+  padding: 20px;
+}
+
 .company-detail {
   display: flex;
   flex-direction: row;
@@ -8,6 +17,8 @@
   border: 1px solid #ddd;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 20px;
+
+  box-sizing: border-box;
 
   img {
     border-radius: 30px;

@@ -2,10 +2,19 @@
   background: #f9f9f9;
   min-height: 100vh;
 
+  overflow: hidden;
+
   &__header {
     display: flex;
     gap: 12px;
     padding: 12px 20px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    background-color: #f9f9f9;
   }
 
   &__title {
@@ -27,15 +36,22 @@
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.3s, transform 0.3s;
 
     &:hover {
+      transition: background 0.3s;
       background: #020202;
       color: #fff;
     }
 
     &:active {
+      transition: transform 0.3s;
       transform: scale(0.97);
     }
+  }
+
+  .active {
+    background: #020202;
+    color: #fff;
   }
 }

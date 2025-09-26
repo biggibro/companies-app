@@ -8,9 +8,11 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 20px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
 
   &:hover {
+    transition: box-shadow 0.3s;
     box-shadow: 0 0px 20px rgba(0, 51, 252, 0.2);
   }
 

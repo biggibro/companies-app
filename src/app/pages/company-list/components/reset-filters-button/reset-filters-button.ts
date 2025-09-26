@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { inject } from '@angular/core';
-import { CompanyApiService } from '../../../../services/company/company-api.service';
-import { CompanyQueryParamsStoreService } from '../../../../services/company/company-query-params.store.service';
-import { CompanyStoreService } from '../../../../services/company/company-store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-filters-button',
@@ -11,18 +9,12 @@ import { CompanyStoreService } from '../../../../services/company/company-store.
   styleUrl: './reset-filters-button.scss',
 })
 export class ResetFiltersButton {
-  private companyApiService = inject(CompanyApiService);
-  private companyStoreService = inject(CompanyStoreService);
-
-  private companyQueryParamsStoreService: CompanyQueryParamsStoreService = inject(
-    CompanyQueryParamsStoreService
-  );
+  private router = inject(Router);
 
   onResetFilters() {
-    this.companyQueryParamsStoreService.resetParams();
-
-    this.companyApiService
-      .getCompanies()
-      .subscribe((response) => this.companyStoreService.setCompanies(response.data));
+    this.router.navigate([], {
+      queryParams: {},
+      queryParamsHandling: 'replace',
+    });
   }
 }

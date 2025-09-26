@@ -54,6 +54,10 @@
   max-width: 200px;
   transition: border-color 0.2s, box-shadow 0.2s;
 
+  &:has(.select:disabled) {
+    background-color: rgb(208, 208, 208);
+  }
+
   .label {
     font-size: 1rem;
     font-weight: 500;
